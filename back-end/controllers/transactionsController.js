@@ -87,23 +87,36 @@ exports.editTransaction = async (req, res) => {
             return res.status(404).json({ message: `Transaksi dengan ID ${id} tidak ditemukan!` });
         }
 
-        let stockChange = 0;
-        if (jenis === 'in') {
-            stockChange = jumlah - transaction.jumlah;
-        } else if (jenis === 'out') {
-            stockChange = - (jumlah - transaction.jumlah);
-        } else {
-            return res.status(400).json({ message: "Jenis transaksi tidak valid!" });
-        }
-
         const barang = await Barang.findByPk(transaction.idBarang);
         if (!barang) {
             return res.status(404).json({ message: "Barang tidak ditemukan!" });
         }
 
-        const newStock = barang.stok + stockChange;
+        // Hitung stok sebelum transaksi
+        let stockBeforeTransaction = barang.stok;
+
+        // Perhitungan stok baru berdasarkan jenis transaksi
+        let newStock = stockBeforeTransaction;
+        if (transaction.jenis === 'in') {
+            // Kurangkan stok transaksi sebelumnya jika itu adalah transaksi masuk
+            newStock -= transaction.jumlah;
+        } else if (transaction.jenis === 'out') {
+            // Tambahkan stok transaksi sebelumnya jika itu adalah transaksi keluar
+            newStock += transaction.jumlah;
+        }
+
+        if (jenis === 'in') {
+            // Tambahkan jumlah transaksi baru jika itu adalah transaksi masuk
+            newStock += jumlah;
+        } else if (jenis === 'out') {
+            // Kurangkan jumlah transaksi baru jika itu adalah transaksi keluar
+            newStock -= jumlah;
+        }
+
+        // Perbarui stok barang
         await Barang.update({ stok: newStock }, { where: { idBarang: transaction.idBarang } });
 
+        // Perbarui transaksi
         await Transaction.update({ jumlah, jenis }, { where: { idTransaction: id } });
 
         res.json({ message: `Transaksi dengan ID ${id} berhasil diedit!` });
@@ -112,6 +125,8 @@ exports.editTransaction = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
 
 
 exports.deleteTransaction = async (req, res) => {

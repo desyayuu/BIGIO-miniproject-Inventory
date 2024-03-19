@@ -1,14 +1,13 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Transactions', {
       idTransaction: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER 
-        
       },
       idBarang: {
         type: Sequelize.INTEGER, 
@@ -17,7 +16,7 @@ module.exports = {
           key:"idBarang"
         },
         onUpdate: "CASCADE", 
-        onDelete: "CASCADE" 
+        onDelete: "SET NULL" 
       },
       idSupplier: {
         type: Sequelize.INTEGER, 
@@ -26,7 +25,7 @@ module.exports = {
           key:"idSupplier"
         },
         onUpdate: "CASCADE", 
-        onDelete: "CASCADE" 
+        onDelete: "SET NULL" 
       },
       jenis: {
         type: Sequelize.STRING
@@ -41,10 +40,14 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      }, 
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE 
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Transactions');
   }
 };

@@ -25,10 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue:0
     },
-    harga: DataTypes.INTEGER
+    harga: DataTypes.INTEGER, 
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Barang',
+    paranoid: true,
   });
   return Barang;
 };

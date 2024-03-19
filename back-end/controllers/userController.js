@@ -53,8 +53,13 @@ exports.updateUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: `user dengan ID ${id} tidak ditemukan!` });
         }
+        
+        if (req.body.password) {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hashedPassword;
+        }
         const updatedUser = await user.update(req.body);
-        res.json(updatedUser);
+        res.json({ message: `Data user dengan ID ${id} berhasil diperbarui`, updatedUser });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: error.message });

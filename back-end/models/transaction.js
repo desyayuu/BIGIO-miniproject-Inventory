@@ -11,43 +11,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Transaction.belongsTo(models.Barang, {
-        foreignKey: "idBarang"
+        foreignKey: "idBarang", 
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE"
       })
       Transaction.belongsTo(models.Supplier, {
-        foreignKey: "idSupplier"
+        foreignKey: "idSupplier", 
+        onDelete: "SET NULL", 
+        onUpdate: "CASCADE"
       })
     }
   }
   Transaction.init({
     idTransaction: {
       type: DataTypes.INTEGER,
-      primaryKey: true, 
-      autoIncrement: true, 
+      primaryKey: true,
+      autoIncrement: true,
       allowNull: false
     },
-    idBarang:{
-      type:DataTypes.INTEGER, 
-      allowNull: false, 
-      references: {
-        model:"Barang",
-      }, 
-      onUpdate: "CASCADE", 
-      onDelete: "CASCADE" 
-    },
-    idSupplier:{
-      type:DataTypes.INTEGER, 
-      allowNull: false, 
-      references: {
-        model:"Supplier",
-      },
-      onUpdate: "CASCADE", 
-      onDelete: "CASCADE" 
-    },
+    idBarang: DataTypes.INTEGER,
+    idSupplier: DataTypes.INTEGER,
     jenis: DataTypes.STRING,
-    jumlah: DataTypes.INTEGER
+    jumlah: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE 
   }, {
     sequelize,
     modelName: 'Transaction',
+    paranoid: true 
   });
   return Transaction;
 };
