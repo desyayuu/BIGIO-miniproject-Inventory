@@ -18,7 +18,6 @@ exports.addUser = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
         const newUser = await User.create({
             username: req.body.username,
             password: hashedPassword
