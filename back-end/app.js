@@ -22,8 +22,8 @@ app.use('/transactions', transactionRoutes);
 app.use('/users', userRoutes);
 app.use('/auths', authsRoutes)
 
-
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 });
 
+module.exports = server;
