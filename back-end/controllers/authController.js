@@ -19,4 +19,8 @@ async function login(req, res) {
     }
 }
 
-module.exports = { login };
+async function logout(req, res) {
+    res.status(200).json({ message: 'Logout successful' });
+}
+
+module.exports = { login, logout };
