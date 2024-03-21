@@ -22,12 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     namaSupplier: DataTypes.STRING,
     noHp: DataTypes.STRING,
-    alamat: DataTypes.STRING, 
-    deletedAt: DataTypes.DATE
+    alamat: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Supplier',
-    paranoid: true,
   });
   return Supplier;
 };

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      
+
     }
   }
   Barang.init({
@@ -25,12 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue:0
     },
-    harga: DataTypes.INTEGER, 
-    deletedAt: DataTypes.DATE
+    harga: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Barang',
-    paranoid: true,
   });
   return Barang;
 };

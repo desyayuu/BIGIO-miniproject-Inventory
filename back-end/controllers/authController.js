@@ -9,7 +9,7 @@ async function login(req, res) {
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) return res.status(401).json({ message: 'Invalid password' });
+        if (!validPassword) return res.status(404).json({ message: 'Invalid password' });
 
         const accessToken = jwt.sign({ id: user.id, username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
         res.json({ accessToken });
@@ -18,7 +18,6 @@ async function login(req, res) {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }
-
 async function logout(req, res) {
     res.status(200).json({ message: 'Logout successful' });
 }

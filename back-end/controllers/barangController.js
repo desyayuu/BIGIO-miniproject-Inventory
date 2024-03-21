@@ -25,18 +25,20 @@ exports.addBarang = async (req, res) => {
 
 exports.getBarangById = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         const barang = await Barang.findByPk(id);
-        if (barang) {
-            res.json(barang);
-        } else {
-            res.status(404).json({ message: `Barang dengan ID ${id} tidak ditemukan!` });
+
+        if (!barang) {
+            return res.status(404).json({ error: 'Barang not found' });
         }
+
+        res.json(barang);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: error.message });
     }
 };
+
 
 exports.updateBarang = async (req, res) => {
     try {
