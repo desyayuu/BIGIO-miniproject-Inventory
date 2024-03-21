@@ -27,11 +27,9 @@ exports.getBarangById = async (req, res) => {
     try {
         const id = parseInt(req.params.id);
         const barang = await Barang.findByPk(id);
-
         if (!barang) {
             return res.status(404).json({ error: 'Barang not found' });
         }
-
         res.json(barang);
     } catch (error) {
         console.error(error);

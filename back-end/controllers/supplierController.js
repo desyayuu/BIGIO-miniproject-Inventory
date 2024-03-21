@@ -30,7 +30,7 @@ exports.getSupplierById = async (req, res) => {
         if (supplier) {
             res.json(supplier);
         } else {
-            res.status(404).json({ message: `Supplier dengan ID ${id} tidak ditemukan!` });
+            res.status(404).json({ error: `Supplier dengan ID ${id} tidak ditemukan!` });
         }
     } catch (error) {
         console.error(error);
@@ -43,7 +43,7 @@ exports.updateSupplier = async (req, res) => {
         const id = req.params.id;
         const supplier = await Supplier.findByPk(id);
         if (!supplier) {
-            return res.status(404).json({ message: `Supplier dengan ID ${id} tidak ditemukan!` });
+            return res.status(404).json({ error: `Supplier dengan ID ${id} tidak ditemukan!` });
         }
         const updatedSupplier = await supplier.update(req.body);
         res.json(updatedSupplier);
