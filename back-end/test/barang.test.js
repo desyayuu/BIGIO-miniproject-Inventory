@@ -50,6 +50,7 @@ describe('API Barang', () => {
                 stok: 10, 
                 harga: 80000
             });
+        console.log(response.status);
         expect(response.status).toBe(201); 
         expect(response.body).toHaveProperty('idBarang');
         expect(response.body.namaBarang).toBe('Barang C');

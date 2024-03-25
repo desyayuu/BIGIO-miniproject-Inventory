@@ -53,6 +53,7 @@ describe('User API', () => {
                 username : 'Username 3', 
                 password : password3 
             });
+        console.log();
         expect(response.status).toBe(201); 
         expect(response.body).toHaveProperty('id');
         expect(response.body.username).toBe('Username 3');
@@ -85,9 +86,6 @@ describe('User API', () => {
         expect(response.body.message).toBe(`Data user dengan ID ${userId} berhasil diperbarui`);
     });
 
-    // test('PUT/users/id -jika sukses aupdate username saja', async()=>{
-
-    // });
 
     test('Update user with new password only', async () => {
         const userId = 1;

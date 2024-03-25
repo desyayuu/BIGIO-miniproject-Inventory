@@ -49,6 +49,7 @@ describe('API Supplier', () => {
                 alamat: 'malang', 
                 noHp: 6282333133323
             });
+        console.log(response.status);
         expect(response.status).toBe(201); 
         expect(response.body).toHaveProperty('idSupplier');
         expect(response.body.namaSupplier).toBe('Supplier C');

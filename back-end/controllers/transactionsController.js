@@ -24,34 +24,35 @@ exports.addTransaction = async (req, res) => {
                 return res.status(404).json({ message: "Barang tidak ditemukan!" });
             }
         
-            let newStock;
-                if (req.body.jenis === 'in') {
-                    newStock = existingBarang.stok + parseInt(req.body.jumlah);
-                } else if (req.body.jenis === 'out') {
-                    if (existingBarang.stok < req.body.jumlah) {
-                        return res.status(400).json({ message: "Stok barang tidak mencukupi!" });
-                    }
-                    newStock = existingBarang.stok - parseInt(req.body.jumlah);
-                } else {
-                    return res.status(400).json({ message: "Jenis transaksi tidak valid!" });
+        let newStock;
+            if (req.body.jenis === 'in') {
+                newStock = existingBarang.stok + parseInt(req.body.jumlah);
+            } else if (req.body.jenis === 'out') {
+                if (existingBarang.stok < req.body.jumlah) {
+                    return res.status(400).json({ message: "Stok barang tidak mencukupi!" });
                 }
-        
-            await Barang.update({ stok: newStock }, { where: { idBarang: req.body.idBarang } });
-        
-                const newTransaction = await Transaction.create({
-                    idBarang: req.body.idBarang,
-                    namaBarang: req.body.namaBarang,
-                    idSupplier:req.body.idSupplier,
-                    namaSupplier: req.body.namaSupplier,
-                    jumlah: parseInt(req.body.jumlah),
-                    jenis: req.body.jenis
-                });
-        
-                res.status(201).json(newTransaction);
-            } catch (error) {
-                console.error(error);
-                res.status(500).json({ error: error.message });
+                newStock = existingBarang.stok - parseInt(req.body.jumlah);
+            } else {
+                return res.status(400).json({ message: "Jenis transaksi tidak valid!" });
             }
+        
+        await Barang.update({ stok: newStock }, { where: { idBarang: req.body.idBarang } });
+        
+            const newTransaction = await Transaction.create({
+                idBarang: req.body.idBarang,
+                namaBarang: req.body.namaBarang,
+                idSupplier:req.body.idSupplier,
+                namaSupplier: req.body.namaSupplier,
+                jumlah: parseInt(req.body.jumlah),
+                jenis: req.body.jenis
+            });
+        
+        res.status(201).json(newTransaction);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
 };
 
 exports.getTransactionById = async (req, res) => {
